@@ -29,7 +29,7 @@
                         </div>
                         <div class="forms-inputs mb-4"><span>Id_device</span> <input autocomplete="off" type="text"
                                                                                   v-model="id_device"
-                                                                                  v-bind:class="{'form-control':true, 'is-invalid' : !validEmail(id_device) && emailBlured}"
+                                                                                  v-bind:class="{'form-control':true, 'is-invalid' : !validIdDevice(id_device) && emailBlured}"
                                                                                   v-on:blur="emailBlured = true">
                           <div class="invalid-feedback">A valid email is required!</div>
                         </div>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="forms-inputs mb-4"><span>Last connection</span> <input autocomplete="off" type="text"
                                                                                       v-model="last_connection"
-                                                                                      v-bind:class="{'form-control':true, 'is-invalid' : !validStartDate(last_connection) && start_dateBlured}"
+                                                                                      v-bind:class="{'form-control':true, 'is-invalid' : !validLastConnection(last_connection) && start_dateBlured}"
                                                                                       v-on:blur="start_dateBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
@@ -147,7 +147,7 @@ export default {
       this.genderBlured = true;
       this.start_dateBlured = true;
       this.expiration_dateBlured = true;
-      if (this.validFirstName(this.first_name) && this.validLastName(this.last_name) && this.validEmail(this.id_device) && this.validStatus(this.status) && this.validStartDate(this.last_connection) && this.validStartDate(this.start_date)) {
+      if (this.validFirstName() && this.validLastName() && this.validIdDevice() && this.validStatus() && this.validLastConnection()) {
         this.valid = true;
       }
     },
@@ -172,7 +172,7 @@ export default {
         return true
       }
     },
-    validStartDate: function () {
+    validLastConnection: function () {
       let re = /^\d{10}$/;
       if (re.test(this.last_connection)) {
         return true
@@ -184,9 +184,9 @@ export default {
         return true
       }
     },
-    validEmail: function (email) {
+    validIdDevice: function () {
       let re = /^\d{10}$/;
-      if (re.test(email)) {
+      if (re.test(this.id_device)) {
         return true;
       }
     },
@@ -214,8 +214,7 @@ export default {
           "last_name": this.last_name,
           "id_device": this.id_device,
           "status": this.status,
-          "start_date": this.start_date,
-          "expiration_date": this.expiration_date,
+          "last_connection": this.last_connection,
         };
         axios.put('http://localhost:3000/accounts/' + this.id, newAccount)
       }
@@ -225,11 +224,11 @@ export default {
       this.action = false;
       let data = (await axios.get('http://localhost:3000/accounts/' + id)).data;
       this.id = data.id;
-      this.first_name = data.name;
-      this.last_name = data.account_name;
+      this.first_name = data.first_name;
+      this.last_name = data.last_name;
       this.id_device = data.id_device;
       this.status = data.status;
-      this.start_date = data.start_date;
+      this.last_connection = data.last_connection;
     },
     setToCreate: function () {
       this.action = true;
@@ -237,7 +236,7 @@ export default {
       this.last_name = "";
       this.id_device = "";
       this.status = "";
-      this.start_date = "";
+      this.last_connection = "";
     },
     deleteByID: function (id) {
       axios.delete('http://localhost:3000/accounts/' + id);

@@ -1,12 +1,6 @@
 <template>
   <footer class="footer w-100 mt-5 pt-5">
-    <div class="footer__parralax">
-      <div class="footer__parralax-trees"></div>
-      <div class="footer__parralax-moto"></div>
-      <div class="footer__parralax-secondplan"></div>
-      <div class="footer__parralax-premierplan"></div>
-      <div class="footer__parralax-voiture"></div>
-    </div>
+
     <div class="container">
       <div class="footer__columns">
         <div class="footer__col">
@@ -172,7 +166,7 @@ body {
 
 @keyframes parralax {
   0% {
-    background-position: 260px
+    /*background-position: 260px*/
   }
   100% {
     background-position: -10000vw
@@ -234,7 +228,6 @@ body {
 }
 
 .footer__parralax-premierplan {
-  background-position: 260px
 }
 
 .footer__parralax-premierplan, .footer__parralax-secondplan, .footer__parralax-trees {

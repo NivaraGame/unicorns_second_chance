@@ -1,7 +1,6 @@
 <template>
-  <button @click="test">asd</button>
   <div class="w-75">
-    <div class="d-flex justify-content-between"><h1>Account list</h1>
+    <div class="d-flex justify-content-between"><h1>Connection list</h1>
       <!-- Button trigger modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -22,15 +21,15 @@
                                                                                 v-on:blur="firstBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
-                        <div class="forms-inputs mb-4"><span>Account name</span> <input autocomplete="off" type="text"
+                        <div class="forms-inputs mb-4"><span>Device_name</span> <input autocomplete="off" type="text"
                                                                                         v-model="last_name"
                                                                                         v-bind:class="{'form-control':true, 'is-invalid' : !validLastName(last_name) && lastBlured}"
                                                                                         v-on:blur="lastBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
-                        <div class="forms-inputs mb-4"><span>E-mail</span> <input autocomplete="off" type="text"
-                                                                                  v-model="email"
-                                                                                  v-bind:class="{'form-control':true, 'is-invalid' : !validEmail(email) && emailBlured}"
+                        <div class="forms-inputs mb-4"><span>Id_device</span> <input autocomplete="off" type="text"
+                                                                                  v-model="id_device"
+                                                                                  v-bind:class="{'form-control':true, 'is-invalid' : !validEmail(id_device) && emailBlured}"
                                                                                   v-on:blur="emailBlured = true">
                           <div class="invalid-feedback">A valid email is required!</div>
                         </div>
@@ -39,24 +38,18 @@
                                   v-bind:class="{'form-control':true, 'is-invalid' : !validStatus(status) && genderBlured}"
                                   v-on:blur="genderBlured = true">
                             <option>Active</option>
-                            <option>Pending</option>
+                            <option>Lost</option>
                             <option>Disabled</option>
                           </select>
                           <div class="invalid-feedback"></div>
                         </div>
-                        <div class="forms-inputs mb-4"><span>Start date</span> <input autocomplete="off" type="text"
-                                                                                      v-model="start_date"
-                                                                                      v-bind:class="{'form-control':true, 'is-invalid' : !validStartDate(start_date) && start_dateBlured}"
+                        <div class="forms-inputs mb-4"><span>Last connection</span> <input autocomplete="off" type="text"
+                                                                                      v-model="last_connection"
+                                                                                      v-bind:class="{'form-control':true, 'is-invalid' : !validStartDate(last_connection) && start_dateBlured}"
                                                                                       v-on:blur="start_dateBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
-                        <div class="forms-inputs mb-4"><span>Expiration date</span> <input autocomplete="off"
-                                                                                           type="text"
-                                                                                           v-model="expiration_date"
-                                                                                           v-bind:class="{'form-control':true, 'is-invalid' : !validExpirationDate(expiration_date, start_date) && expiration_dateBlured}"
-                                                                                           v-on:blur="expiration_dateBlured = true">
-                          <div class="invalid-feedback">required!</div>
-                        </div>
+
                         <div class="mb-3">
                           <button v-if="action" v-on:click.prevent.stop="submit" class="btn btn-dark w-100">Create
                           </button>
@@ -75,7 +68,7 @@
       <!-- Modal -->
       <button @click="setToCreate" type="button" class="btn btn-primary" data-bs-toggle="modal"
               data-bs-target="#exampleModal">
-        Create account
+        Create device
       </button>
     </div>
     <div class="bg-info p-2 mt-3"><p>Total count {{ accounts.length }}</p></div>
@@ -83,32 +76,30 @@
       <tr class="d-flex justify-content-between w-100">
         <th class="justify-content-start w-100">Name</th>
         <th class="justify-content-start w-100">Account name</th>
-        <th class="justify-content-start w-100">E-mail</th>
+        <th class="justify-content-start w-100">Id device</th>
         <th class="justify-content-start w-100">Status</th>
-        <th class="justify-content-start w-100">Start date</th>
-        <th class="justify-content-start w-100">Expiration date</th>
+        <th class="justify-content-start w-100">Last connection</th>
         <th class="justify-content-start w-100"></th>
       </tr>
       <hr style="border: black 1px solid">
       <tr v-for="item in accounts" class="d-flex justify-content-between w-100 border-top" style="font-size: 13px">
         <router-link :to='"/account/" + item.id' class="justify-content-start w-100">
-          <td class="justify-content-start w-100">{{ item.name }}</td>
+          <td class="justify-content-start w-100">{{ item.first_name }}</td>
         </router-link>
-        <td class="justify-content-start w-100">{{ item.account_name }}</td>
-        <td class="justify-content-start w-100">{{ item.email }}</td>
+        <td class="justify-content-start w-100">{{ item.last_name }}</td>
+        <td class="justify-content-start w-100">{{ item.id_device }}</td>
 
         <td v-if="item.status === 'Active'" class="justify-content-start w-100" style="background-color: #0a53be">
           {{ item.status }}
         </td>
-        <td v-if="item.status === 'Pending'" class="justify-content-start w-100" style="background-color: red">
+        <td v-if="item.status === 'Lost'" class="justify-content-start w-100" style="background-color: red">
           {{ item.status }}
         </td>
-        <td v-if="item.status === 'Disable'" class="justify-content-start w-100" style="background-color: yellow">
+        <td v-if="item.status === 'Disable'" class="justify-content-start w-100" style="background-color: gray">
           {{ item.status }}
         </td>
 
-        <td class="justify-content-start w-100">{{ item.start_date }}</td>
-        <td class="d-flex justify-content-start w-100">{{ item.expiration_date }}</td>
+        <td class="justify-content-start w-100">{{ item.last_connection }}</td>
         <td class="d-flex justify-content-end w-100">
           <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
                   @click="getByID(item.id)">Edit
@@ -131,10 +122,9 @@ export default {
       id: Number,
       first_name: String,
       last_name: String,
-      email: '',
+      id_device: Number,
       status: String,
-      start_date:Number,
-      expiration_date: Number,
+      last_connection: 0,
       firstBlured: false,
       lastBlured: false,
       emailBlured: false,
@@ -157,7 +147,7 @@ export default {
       this.genderBlured = true;
       this.start_dateBlured = true;
       this.expiration_dateBlured = true;
-      if (this.validFirstName(this.first_name) && this.validLastName(this.last_name) && this.validEmail(this.email) && this.validStatus(this.status) && this.validStartDate(this.start_date) && this.validStartDate(this.start_date)) {
+      if (this.validFirstName(this.first_name) && this.validLastName(this.last_name) && this.validEmail(this.id_device) && this.validStatus(this.status) && this.validStartDate(this.last_connection) && this.validStartDate(this.start_date)) {
         this.valid = true;
       }
     },
@@ -175,7 +165,7 @@ export default {
     },
 
     validStatus: function () {
-      let re = /Pending/;
+      let re = /Lost/;
       let re1 = /Disabled/;
       let re2 = /Active/;
       if (re.test(this.status) || re1.test(this.status) || re2.test(this.status)) {
@@ -184,7 +174,7 @@ export default {
     },
     validStartDate: function () {
       let re = /^\d{10}$/;
-      if (re.test(this.start_date)) {
+      if (re.test(this.last_connection)) {
         return true
       }
     },
@@ -195,9 +185,8 @@ export default {
       }
     },
     validEmail: function (email) {
-
-      let re = /(.+)@(.+){2,}\.(.+){2,}/;
-      if (re.test(email.toLowerCase())) {
+      let re = /^\d{10}$/;
+      if (re.test(email)) {
         return true;
       }
     },
@@ -207,12 +196,11 @@ export default {
       if (this.valid && this.action) {
         const newAccount = {
           "id": this.accounts[this.accounts.length - 1].id + 1,
-          "name": this.first_name,
-          "account_name": this.last_name,
-          "email": this.email,
+          "first_name": this.first_name,
+          "last_name": this.last_name,
+          "id_device": this.id_device,
           "status": this.status,
-          "start_date": this.start_date,
-          "expiration_date": this.expiration_date,
+          "last_connection": this.last_connection,
         };
         axios.post('http://localhost:3000/accounts', newAccount)
           .then(response => {
@@ -222,9 +210,9 @@ export default {
         });
       } else {
         const newAccount = {
-          "name": this.first_name,
-          "account_name": this.last_name,
-          "email": this.email,
+          "first_name": this.first_name,
+          "last_name": this.last_name,
+          "id_device": this.id_device,
           "status": this.status,
           "start_date": this.start_date,
           "expiration_date": this.expiration_date,
@@ -239,19 +227,17 @@ export default {
       this.id = data.id;
       this.first_name = data.name;
       this.last_name = data.account_name;
-      this.email = data.email;
+      this.id_device = data.id_device;
       this.status = data.status;
       this.start_date = data.start_date;
-      this.expiration_date = data.expiration_date;
     },
     setToCreate: function () {
       this.action = true;
       this.first_name = "";
       this.last_name = "";
-      this.email = "";
+      this.id_device = "";
       this.status = "";
       this.start_date = "";
-      this.expiration_date = "";
     },
     deleteByID: function (id) {
       axios.delete('http://localhost:3000/accounts/' + id);

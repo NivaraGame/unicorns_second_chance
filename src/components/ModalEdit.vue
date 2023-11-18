@@ -163,13 +163,13 @@ export default {
           "last_connection": this.last_connection,
           "image": this.image.name
         };
-        axios.put('http://shedule.mitit:3000/accounts/' + this.id, newAccount)
+        axios.put('http://shedule.mitit:3002/accounts/' + this.id, newAccount)
       }
       window.location.reload();
     }
   },
   async mounted() {
-    const account = (await axios.get('http://shedule.mitit:3000/accounts/' + this.$route.params.id)).data;
+    const account = (await axios.get('http://shedule.mitit:3002/accounts/' + this.$route.params.id)).data;
     console.log(account)
     this.id = account.id;
    this.first_name = account.first_name;
@@ -178,12 +178,6 @@ export default {
    this.status = account.status;
    this.last_connection = account.last_connection;
    this.image = account.image;
-   //  "id": 2,
-   //    "first_name": "Preston",
-   //    "last_name": "stitfall",
-   //    "id_device": 172678163,
-   //    "status": "Lost",
-   //    "last_connection": 532119949
   }
 }
 </script>

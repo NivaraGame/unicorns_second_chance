@@ -80,7 +80,7 @@ export default {
     }
   },
   async mounted() {
-    this.connections = (await axios.get('http://shedule.mitit:3000/accounts')).data;
+    this.connections = (await axios.get('http://shedule.mitit:3002/accounts')).data;
   }
 }
 </script>

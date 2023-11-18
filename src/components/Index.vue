@@ -260,12 +260,12 @@ export default {
       this.image = null;
       },
     deleteByID: function (id) {
-      axios.delete('http://shedule.mitit:3000/accounts/' + id);
+      axios.delete('http://shedule.mitit:3002/accounts/' + id);
       window.location.reload();
     }
   },
   async mounted() {
-    this.accounts = (await axios.get('http://shedule.mitit:3000/accounts')).data
+    this.accounts = (await axios.get('http://shedule.mitit:3002/accounts')).data
   }
 }
 </script>

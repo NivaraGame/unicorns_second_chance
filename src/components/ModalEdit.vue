@@ -156,6 +156,7 @@ export default {
       if (this.valid) {
         this.uploadImage()
         const newAccount = {
+          "id": this.id,
           "first_name": this.first_name,
           "last_name": this.last_name,
           "id_device": this.id_device,

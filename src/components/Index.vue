@@ -233,13 +233,15 @@ export default {
           "image": this.image.name
         };
         this.uploadImage()
-        axios.put('http://shedule.mitit:3001/news/' + this.id, newAccount)
+        axios.put('http://schedule.mitit:3001/news/' + this.id, newAccount)
       }
       window.location.reload();
     },
     getByID: async function (id) {
       this.action = false;
-      let data = (await axios.get('http://shedule.mitit:3001/news/' + id)).data;
+      console.log(id)
+      let data = (await axios.get('http://schedule.mitit:3001/news/' + id)).data;
+      console.log(data)
       this.id = data.id;
       this.first_name = data.first_name;
       this.last_name = data.last_name;
@@ -247,7 +249,6 @@ export default {
       this.status = data.status;
       this.last_connection = data.last_connection;
       this.image  = data.image;
-
     },
     setToCreate: function () {
       this.id = null;

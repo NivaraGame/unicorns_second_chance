@@ -12,7 +12,15 @@ router.get('/', async function (req, res) {
         res.status(500).send('Помилка на сервері');
     }
 });
-
+router.get('/:id', async function (req, res) {
+  try {
+    const data = await getNewsById(req.params.id);
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Помилка на сервері');
+  }
+});
 router.post('/', async function (req, res) {
     try {
         const {id, first_name,

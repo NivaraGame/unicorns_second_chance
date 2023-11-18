@@ -4,6 +4,9 @@ const newsModel = require('../model/news');
 const getNews = async () => {
   return newsModel.find({})
 }
+const getNewsById = async (id) => {
+  return newsModel.find({id:id})
+}
 
 const createNews = async (id, first_name,
                           last_name, id_device, status,
@@ -48,6 +51,7 @@ const deleteNews = async (id, first_name,
 }
 module.exports = {
   getNews,
+  getNewsById,
   updateNews,
   createNews,
   deleteNews

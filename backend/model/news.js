@@ -7,10 +7,10 @@ const schema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  first_name: [{
+  first_name: {
     type: String,
     required: true,
-  }],
+  },
   last_name: {
     type: Number,
     required: true,
@@ -20,7 +20,7 @@ const schema = new mongoose.Schema({
     required: true
   },
   status: {
-    type: Number,
+    type: String,
     required: true
   },
   last_connection: {

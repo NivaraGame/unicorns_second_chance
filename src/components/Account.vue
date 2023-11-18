@@ -33,11 +33,11 @@ export default {
   },
   methods: {
     deleteByID: function (id) {
-      axios.delete('http://shedule.mitit:3002/accounts/' + id);
+      axios.delete('http://schedule.mitit:3002/accounts/' + id);
     }
   },
   async mounted() {
-    this.account = (await axios.get('http://shedule.mitit:3002/accounts/' + this.$route.params.id)).data;
+    this.account = (await axios.get('http://schedule.mitit:3002/accounts/' + this.$route.params.id)).data;
     console.log(this.account.image)
   }
 }

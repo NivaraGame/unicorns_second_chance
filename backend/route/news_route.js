@@ -1,5 +1,5 @@
 const express = require('express');
-const {getNewsByRegion, createNews, getNews, updateNews, deleteNews} = require("../controller/news_controller");
+const {getNewsByRegion, createNews, getNews, updateNews, deleteNews, getNewsById} = require("../controller/news_controller");
 const router = express.Router();
 
 

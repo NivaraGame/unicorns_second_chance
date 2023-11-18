@@ -5,7 +5,7 @@ const getNews = async () => {
   return newsModel.find({})
 }
 const getNewsById = async (id) => {
-  return newsModel.find({id:id})
+  return newsModel.findOne({id:id})
 }
 
 const createNews = async (id, first_name,

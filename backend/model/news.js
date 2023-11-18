@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     required: true,
   },
   last_name: {
-    type: Number,
+    type: String,
     required: true,
   },
   id_device: {

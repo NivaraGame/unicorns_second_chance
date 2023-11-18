@@ -102,7 +102,7 @@
         </td>
 
         <td class="justify-content-start w-100">{{ item.last_connection }}</td>
-        <td class="d-flex justify-content-end w-100">
+        <td class="d-flex justify-ontent-end w-100">
           <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
                   @click="getByID(item.id)">Edit
           </button>
@@ -147,7 +147,7 @@ export default {
       const formData = new FormData();
       formData.append('image', this.image);
       // console.log('image-' + Date.now())
-      axios.post('http://shedule.mitit:3001/upload', formData)
+      axios.post('http://schedule.mitit:3001/upload', formData)
         .then(response => {
           console.log(response.data);
         })
@@ -217,7 +217,7 @@ export default {
           "image": this.image.name
         };
         this.uploadImage()
-        axios.post('http://shedule.mitit:3001/', newAccount)
+        axios.post('http://schedule.mitit:3001/news', newAccount)
           .then(response => {
             console.log('Account added successfully:', response.data);
           }).catch(error => {

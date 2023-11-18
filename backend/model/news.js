@@ -9,7 +9,6 @@ const schema = new mongoose.Schema({
   },
   first_name: [{
     type: String,
-    unique: true,
     required: true,
   }],
   last_name: {

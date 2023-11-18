@@ -217,7 +217,7 @@ export default {
           "image": this.image.name
         };
         this.uploadImage()
-        axios.post('http://shedule.mitit:3000/accounts', newAccount)
+        axios.post('http://shedule.mitit:3001/', newAccount)
           .then(response => {
             console.log('Account added successfully:', response.data);
           }).catch(error => {
@@ -233,13 +233,13 @@ export default {
           "image": this.image.name
         };
         this.uploadImage()
-        axios.put('http://shedule.mitit:3000/accounts/' + this.id, newAccount)
+        axios.put('http://shedule.mitit:3001/news/' + this.id, newAccount)
       }
       window.location.reload();
     },
     getByID: async function (id) {
       this.action = false;
-      let data = (await axios.get('http://shedule.mitit:3000/accounts/' + id)).data;
+      let data = (await axios.get('http://shedule.mitit:3001/news/' + id)).data;
       this.id = data.id;
       this.first_name = data.first_name;
       this.last_name = data.last_name;
@@ -260,12 +260,12 @@ export default {
       this.image = null;
       },
     deleteByID: function (id) {
-      axios.delete('http://schedule.mitit:3002/accounts/' + id);
+      axios.delete('http://schedule.mitit:3001/news/' + id);
       window.location.reload();
     }
   },
   async mounted() {
-    this.accounts = (await axios.get('http://schedule.mitit:3002/accounts')).data
+    this.accounts = (await axios.get('http://schedule.mitit:3001/news')).data
   }
 }
 </script>

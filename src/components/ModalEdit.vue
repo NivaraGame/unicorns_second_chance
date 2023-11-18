@@ -163,13 +163,13 @@ export default {
           "last_connection": this.last_connection,
           "image": this.image.name
         };
-        axios.put('http://schedule.mitit:3002/accounts/' + this.id, newAccount)
+        axios.put('http://schedule.mitit:3001/news/' + this.id, newAccount)
       }
       window.location.reload();
     }
   },
   async mounted() {
-    const account = (await axios.get('http://schedule.mitit:3002/accounts/' + this.$route.params.id)).data;
+    const account = (await axios.get('http://schedule.mitit:3001/news/' + this.$route.params.id)).data;
     console.log(account)
     this.id = account.id;
    this.first_name = account.first_name;

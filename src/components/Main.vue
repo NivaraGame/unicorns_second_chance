@@ -80,7 +80,7 @@ export default {
     }
   },
   async mounted() {
-    this.connections = (await axios.get('http://schedule.mitit:3002/accounts')).data;
+    this.connections = (await axios.get('http://schedule.mitit:3001/news')).data;
   }
 }
 </script>

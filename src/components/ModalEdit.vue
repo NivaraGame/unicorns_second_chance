@@ -95,10 +95,10 @@ export default {
       this.image = event.target.files[0];
       console.log(this.image.name)
     },
-    uploadImage() {
+    async uploadImage() {
       const formData = new FormData();
       formData.append('image', this.image);
-      axios.post('http://schedule.mitit:3001/upload', formData)
+      await axios.post('http://schedule.mitit:3001/upload', formData)
         .then(response => {
           console.log(response.data);
         })
@@ -151,10 +151,10 @@ export default {
       }
     },
 
-    submit: function () {
+    submit: async function () {
       this.validate();
       if (this.valid) {
-        this.uploadImage()
+        await this.uploadImage()
         const newAccount = {
           "id": this.id,
           "first_name": this.first_name,
@@ -164,21 +164,32 @@ export default {
           "last_connection": this.last_connection,
           "image": this.image.name
         };
-        axios.put('http://schedule.mitit:3001/news/' + this.id, newAccount)
+        await axios.put('http://schedule.mitit:3001/news/' + this.id, newAccount)
       }
-      window.location.reload();
+      await this.getData()
+    },
+    getData: async function() {
+      const account = (await axios.get('http://schedule.mitit:3001/news/' + this.$route.params.id)).data;
+      console.log(account)
+      this.id = account.id;
+      this.first_name = account.first_name;
+      this.last_name = account.last_name;
+      this.id_device = account.id_device;
+      this.status = account.status;
+      this.last_connection = account.last_connection;
+      this.image = account.image;
     }
   },
   async mounted() {
     const account = (await axios.get('http://schedule.mitit:3001/news/' + this.$route.params.id)).data;
     console.log(account)
     this.id = account.id;
-   this.first_name = account.first_name;
-   this.last_name = account.last_name;
-   this.id_device = account.id_device;
-   this.status = account.status;
-   this.last_connection = account.last_connection;
-   this.image = account.image;
+    this.first_name = account.first_name;
+    this.last_name = account.last_name;
+    this.id_device = account.id_device;
+    this.status = account.status;
+    this.last_connection = account.last_connection;
+    this.image = account.image;
   }
 }
 </script>

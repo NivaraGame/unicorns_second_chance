@@ -204,7 +204,7 @@ export default {
       }
     },
 
-    submit: function () {
+    submit: async function () {
       this.validate();
       console.log(this.accounts[this.accounts.length - 1].id + 1)
       if (this.valid && this.action) {
@@ -219,7 +219,7 @@ export default {
         };
         console.log(newAccount)
         this.uploadImage()
-        const {data} = axios.post('http://schedule.mitit:3001/news', newAccount)
+        const {data} = await axios.post('http://schedule.mitit:3001/news', newAccount)
           .then(response => {
             console.log('Account added successfully:', response.data);
 
@@ -239,9 +239,9 @@ export default {
           "image": this.image.name
         };
         this.uploadImage()
-        axios.put('http://schedule.mitit:3001/news/' + this.id, newAccount)
+        await axios.put('http://schedule.mitit:3001/news/' + this.id, newAccount)
       }
-      window.location.reload();
+      await this.getData()
     },
     getByID: async function (id) {
       this.action = false;
@@ -266,13 +266,16 @@ export default {
       this.last_connection = "";
       this.image = null;
     },
-    deleteByID: function (id) {
-      axios.delete('http://schedule.mitit:3001/news/' + id, {
+    deleteByID: async function (id) {
+      await axios.delete('http://schedule.mitit:3001/news/' + id, {
         params: {
           id: this.id
         }
       });
-      window.location.reload();
+      await this.getData()
+    },
+    getData: async function() {
+      this.accounts = await axios.get('http://schedule.mitit:3001/news')
     }
   },
   async mounted() {

@@ -33,7 +33,11 @@ export default {
   },
   methods: {
     deleteByID: function (id) {
-      axios.delete('http://schedule.mitit:3001/news/' + id);
+      axios.delete('http://schedule.mitit:3001/news/' + id, {
+        params: {
+          id: this.id
+        }
+      });
     }
   },
   async mounted() {

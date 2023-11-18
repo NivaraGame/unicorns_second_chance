@@ -22,15 +22,15 @@
                           <div class="invalid-feedback">required!</div>
                         </div>
                         <div class="forms-inputs mb-4"><span>Device_name</span> <input autocomplete="off" type="text"
-                                                                                        v-model="last_name"
-                                                                                        v-bind:class="{'form-control':true, 'is-invalid' : !validLastName(last_name) && lastBlured}"
-                                                                                        v-on:blur="lastBlured = true">
+                                                                                       v-model="last_name"
+                                                                                       v-bind:class="{'form-control':true, 'is-invalid' : !validLastName(last_name) && lastBlured}"
+                                                                                       v-on:blur="lastBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
                         <div class="forms-inputs mb-4"><span>Id_device</span> <input autocomplete="off" type="text"
-                                                                                  v-model="id_device"
-                                                                                  v-bind:class="{'form-control':true, 'is-invalid' : !validIdDevice(id_device) && emailBlured}"
-                                                                                  v-on:blur="emailBlured = true">
+                                                                                     v-model="id_device"
+                                                                                     v-bind:class="{'form-control':true, 'is-invalid' : !validIdDevice(id_device) && emailBlured}"
+                                                                                     v-on:blur="emailBlured = true">
                           <div class="invalid-feedback">A valid email is required!</div>
                         </div>
                         <div class="forms-inputs mb-4"><span>Status</span>
@@ -43,10 +43,11 @@
                           </select>
                           <div class="invalid-feedback"></div>
                         </div>
-                        <div class="forms-inputs mb-4"><span>Last connection</span> <input autocomplete="off" type="text"
-                                                                                      v-model="last_connection"
-                                                                                      v-bind:class="{'form-control':true, 'is-invalid' : !validLastConnection(last_connection) && start_dateBlured}"
-                                                                                      v-on:blur="start_dateBlured = true">
+                        <div class="forms-inputs mb-4"><span>Last connection</span> <input autocomplete="off"
+                                                                                           type="text"
+                                                                                           v-model="last_connection"
+                                                                                           v-bind:class="{'form-control':true, 'is-invalid' : !validLastConnection(last_connection) && start_dateBlured}"
+                                                                                           v-on:blur="start_dateBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
                         <div>
@@ -216,15 +217,20 @@ export default {
           "last_connection": this.last_connection,
           "image": this.image.name
         };
+        console.log(newAccount)
         this.uploadImage()
-        axios.post('http://schedule.mitit:3001/news', newAccount)
+        const {data} = axios.post('http://schedule.mitit:3001/news', newAccount)
           .then(response => {
             console.log('Account added successfully:', response.data);
+
           }).catch(error => {
-          console.error('Error adding account:', error);
-        });
+            console.error('Error adding account:', error);
+          });
+        console.log(data)
+
       } else {
         const newAccount = {
+          "id": this.id,
           "first_name": this.first_name,
           "last_name": this.last_name,
           "id_device": this.id_device,
@@ -248,7 +254,7 @@ export default {
       this.id_device = data.id_device;
       this.status = data.status;
       this.last_connection = data.last_connection;
-      this.image  = data.image;
+      this.image = data.image;
     },
     setToCreate: function () {
       this.id = null;
@@ -259,9 +265,13 @@ export default {
       this.status = "";
       this.last_connection = "";
       this.image = null;
-      },
+    },
     deleteByID: function (id) {
-      axios.delete('http://schedule.mitit:3001/news/' + id);
+      axios.delete('http://schedule.mitit:3001/news/' + id, {
+        params: {
+          id: this.id
+        }
+      });
       window.location.reload();
     }
   },

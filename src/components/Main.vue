@@ -16,7 +16,7 @@
       </div>
       <div v-for="item in connections" class="carousel-item">
         <router-link :to='"/account/" + item.id'>
-          <img src="./images/img.png" class="d-block w-100" alt="...">
+          <img :src="'./src/components/images/' + item.image" class="d-block w-100" alt="...">
         </router-link>
         <div class="carousel-caption d-none d-md-block">
           <h5>{{ item.first_name }}</h5>
@@ -80,7 +80,7 @@ export default {
     }
   },
   async mounted() {
-    this.connections = (await axios.get('http://localhost:3000/accounts')).data;
+    this.connections = (await axios.get('http://shedule.mitit:3000/accounts')).data;
   }
 }
 </script>

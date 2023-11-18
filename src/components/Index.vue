@@ -49,7 +49,9 @@
                                                                                       v-on:blur="start_dateBlured = true">
                           <div class="invalid-feedback">required!</div>
                         </div>
-
+                        <div>
+                          <input type="file" @change="handleFileChange">
+                        </div>
                         <div class="mb-3">
                           <button v-if="action" v-on:click.prevent.stop="submit" class="btn btn-dark w-100">Create
                           </button>
@@ -124,6 +126,7 @@ export default {
       last_name: String,
       id_device: Number,
       status: String,
+      image: null,
       last_connection: 0,
       firstBlured: false,
       lastBlured: false,
@@ -137,6 +140,21 @@ export default {
     }
   },
   methods: {
+    handleFileChange(event) {
+      this.image = event.target.files[0];
+    },
+    uploadImage() {
+      const formData = new FormData();
+      formData.append('image', this.image);
+      // console.log('image-' + Date.now())
+      axios.post('http://shedule.mitit:3001/upload', formData)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error uploading image:', error);
+        });
+    },
     test: function () {
       window.location.reload()
     },
@@ -178,12 +196,6 @@ export default {
         return true
       }
     },
-    validExpirationDate: function (end, start) {
-      let re = /^\d{10}$/;
-      if (re.test(this.expiration_date) && end > start) {
-        return true
-      }
-    },
     validIdDevice: function () {
       let re = /^\d{10}$/;
       if (re.test(this.id_device)) {
@@ -193,6 +205,7 @@ export default {
 
     submit: function () {
       this.validate();
+      console.log(this.accounts[this.accounts.length - 1].id + 1)
       if (this.valid && this.action) {
         const newAccount = {
           "id": this.accounts[this.accounts.length - 1].id + 1,
@@ -201,8 +214,10 @@ export default {
           "id_device": this.id_device,
           "status": this.status,
           "last_connection": this.last_connection,
+          "image": this.image.name
         };
-        axios.post('http://localhost:3000/accounts', newAccount)
+        this.uploadImage()
+        axios.post('http://shedule.mitit:3000/accounts', newAccount)
           .then(response => {
             console.log('Account added successfully:', response.data);
           }).catch(error => {
@@ -215,36 +230,42 @@ export default {
           "id_device": this.id_device,
           "status": this.status,
           "last_connection": this.last_connection,
+          "image": this.image.name
         };
-        axios.put('http://localhost:3000/accounts/' + this.id, newAccount)
+        this.uploadImage()
+        axios.put('http://shedule.mitit:3000/accounts/' + this.id, newAccount)
       }
       window.location.reload();
     },
     getByID: async function (id) {
       this.action = false;
-      let data = (await axios.get('http://localhost:3000/accounts/' + id)).data;
+      let data = (await axios.get('http://shedule.mitit:3000/accounts/' + id)).data;
       this.id = data.id;
       this.first_name = data.first_name;
       this.last_name = data.last_name;
       this.id_device = data.id_device;
       this.status = data.status;
       this.last_connection = data.last_connection;
+      this.image  = data.image;
+
     },
     setToCreate: function () {
+      this.id = null;
       this.action = true;
       this.first_name = "";
       this.last_name = "";
       this.id_device = "";
       this.status = "";
       this.last_connection = "";
-    },
+      this.image = null;
+      },
     deleteByID: function (id) {
-      axios.delete('http://localhost:3000/accounts/' + id);
+      axios.delete('http://shedule.mitit:3000/accounts/' + id);
       window.location.reload();
     }
   },
   async mounted() {
-    this.accounts = (await axios.get('http://localhost:3000/accounts')).data
+    this.accounts = (await axios.get('http://shedule.mitit:3000/accounts')).data
   }
 }
 </script>
